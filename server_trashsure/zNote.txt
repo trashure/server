@@ -1,0 +1,21 @@
+npm init -y;
+yarn add mongoose;
+yarn add axios;
+yarn add cors;
+yarn add jsonwebtoken;
+yarn add bcrypt;
+yarn add express;
+yarn add route-label;
+yarn add  @google-cloud/storage;
+yarn add  multer;
+
+yarn add dotenv -D;
+yarn add mocha -D;
+yarn add chai -D;
+yarn add chai-http -D;
+
+
+
+ROUTER
+User => http://localhost:3000/user
+Trash => http://localhost:3000/
