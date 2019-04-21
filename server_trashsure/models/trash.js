@@ -9,6 +9,8 @@ const TrashSchema = new Schema({
   location: String,
   description: String,
   type: String,
+  prediction: Array,
+  createdAt: Date,
   userID: { type: Schema.Types.ObjectId, ref: "User" }
 });
 
