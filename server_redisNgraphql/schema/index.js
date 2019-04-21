@@ -27,7 +27,7 @@ const schema = new GraphQLSchema({
                 resolve: async (_previous, { token }, _context) => {
 
                     console.log(token, "=====");
-                    
+
                     const { data } = await api.getTrash(token);
                     return data
                 }
@@ -35,59 +35,51 @@ const schema = new GraphQLSchema({
         }
     }),
 
-    // mutation: new GraphQLObjectType({
-    //     name: 'RootMutationType',
-    //     fields: {
-    //         //
-    //         //  U S E R
-    //         // 
-    //         register: {
-    //             type: TrashType,
-    //             args: {
-    //                 path: { type: new GraphQLNonNull(GraphQLString) },
-    //             },
-    //             resolve: async (_previous, { path }, _context) => {
-    //                 const { data } = await api.postTrash({ path });
-    //                 return data;
-    //             },
-    //         },
-    //         //
-    //         //  T R A S H
-    //         // 
-    //         createTrash: {
-    //             type: TrashType,
-    //             args: {
-    //                 path: { type: new GraphQLNonNull(GraphQLString) },
-    //             },
-    //             resolve: async (_previous, { path }, _context) => {
-    //                 const { data } = await api.postTrash({ path });
-    //                 return data;
-    //             },
-    //         },
-    //         updateTrash: {
-    //             type: TrashType,
-    //             args: {
-
-    //             },
-    //             resolve: async (_previous, { }, _context) => {
-    //                 console.log('masuk update', movieID);
-
-    //                 const { data } = await api.putEntertainmeMovie(movieID, {});
-    //                 return data;
-    //             },
-    //         },
-    //         deleteTrash: {
-    //             type: TrashType,
-    //             args: {
-    //                 trashID: { type: new GraphQLNonNull(GraphQLID) },
-    //             },
-    //             resolve: async (_previous, { trashID }, _context) => {
-    //                 const { data } = await api.deleteTrash(trashID);
-    //                 return data;
-    //             },
-    //         }
-    //     },
-    // }),
+    mutation: new GraphQLObjectType({
+        name: 'RootMutationType',
+        fields: {
+            //
+            //  U S E R
+            // 
+            register: {
+                type: TrashType,
+                args: {
+                    path: { type: new GraphQLNonNull(GraphQLString) },
+                },
+                resolve: async (_previous, { path }, _context) => {
+                    const { data } = await api.postTrash({ path });
+                    return data;
+                },
+            },
+            //
+            //  T R A S H
+            // 
+            createTrash: {
+                type: TrashType,
+                args: {
+                    token: { type: new GraphQLNonNull(GraphQLString) },
+                    path: { type: new GraphQLNonNull(GraphQLString) },
+                    location: { type: GraphQLString },
+                    description: { type: GraphQLString },
+                },
+                resolve: async (_previous, { token, path, location, description }, _context) => {
+                    const { data } = await api.postTrash(token, { path, location, description });
+                    return data;
+                },
+            },
+            deleteTrash: {
+                type: TrashType,
+                args: {
+                    trashID: { type: new GraphQLNonNull(GraphQLID) },
+                    token: { type: new GraphQLNonNull(GraphQLString) },
+                },
+                resolve: async (_previous, { trashID, token }, _context) => {
+                    const { data } = await api.deleteTrash(trashID, token);
+                    return data;
+                },
+            }
+        },
+    }),
 
 })
 module.exports = schema;

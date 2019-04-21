@@ -1,8 +1,0 @@
-query {
-  allData(token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjYmMwYzY3OTQ5ZmY4MGVkOWE3MWY4YSIsIm5hbWUiOiJBZGkgUHJhc2V0eWEgUHV0cmEiLCJlbWFpbCI6ImFkaXBAbWFpbC5jb20iLCJpYXQiOjE1NTU4Mjc4NDN9.a-DhYHcovPC44zmRtPh0K3nUK4nRVsM_yxj1uhWIlzY") { 
-      path
-    	userID {
-      	email
-    	}   
-    } 
-}
