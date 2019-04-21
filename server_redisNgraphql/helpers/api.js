@@ -1,11 +1,11 @@
 const axios = require('axios'),
-    baseURL = 'http://localhost:3000/user';
+    baseURL = 'http://35.237.249.100';
 
-const register = () => axios.get(baseURL + '/register');
-const login = () => axios.get(baseURL + '/login');
-const getTrash = () => axios.get(baseURL + '/');
-const postTrash = () => axios.get(baseURL + '/');
-const deleteTrash = (id) => axios.get(baseURL + '/' + id);
+const register = () => axios.post(baseURL + '/user/register');
+const login = () => axios.post(baseURL + '/user/login');
+const getTrash = (token) => axios.get(baseURL + '/', {headers : {Token : token }});
+const postTrash = (body, token) => axios.post(baseURL + '/', body, {headers : {Token : token }});
+const deleteTrash = (id, token) => axios.delete(baseURL + '/' + id, {headers : {Token : token }});
 
 module.exports = {
     register, login,

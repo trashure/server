@@ -8,7 +8,7 @@ const {
 
 const api = require('../helpers/api');
 const UserType = require('./types/user');
-const Trashtype = require('./types/trash');
+const TrashType = require('./types/trash');
 const axios = require('axios')
 
 
@@ -18,68 +18,76 @@ const schema = new GraphQLSchema({
         name: "RootQueryType",
         fields: {
             allData: {
-                type: new GraphQLList(MoviesType),
-                resolve: async () => {
-                    const { data } = await api.getTrash();
+                type: new GraphQLList(TrashType),
+                args: {
+                    token: {
+                        type: new GraphQLNonNull(GraphQLString)
+                    }
+                },
+                resolve: async (_previous, { token }, _context) => {
+
+                    console.log(token, "=====");
+                    
+                    const { data } = await api.getTrash(token);
                     return data
                 }
             },
         }
     }),
 
-    mutation: new GraphQLObjectType({
-        name: 'RootMutationType',
-        fields: {
-            //
-            //  U S E R
-            // 
-            register: {
-                type: MoviesType,
-                args: {
-                    path: { type: new GraphQLNonNull(GraphQLString) },
-                },
-                resolve: async (_previous, { path }, _context) => {
-                    const { data } = await api.postTrash({ path });
-                    return data;
-                },
-            },
-            //
-            //  T R A S H
-            // 
-            createTrash: {
-                type: MoviesType,
-                args: {
-                    path: { type: new GraphQLNonNull(GraphQLString) },
-                },
-                resolve: async (_previous, { path }, _context) => {
-                    const { data } = await api.postTrash({ path });
-                    return data;
-                },
-            },
-            updateTrash: {
-                type: Trashtype,
-                args: {
+    // mutation: new GraphQLObjectType({
+    //     name: 'RootMutationType',
+    //     fields: {
+    //         //
+    //         //  U S E R
+    //         // 
+    //         register: {
+    //             type: TrashType,
+    //             args: {
+    //                 path: { type: new GraphQLNonNull(GraphQLString) },
+    //             },
+    //             resolve: async (_previous, { path }, _context) => {
+    //                 const { data } = await api.postTrash({ path });
+    //                 return data;
+    //             },
+    //         },
+    //         //
+    //         //  T R A S H
+    //         // 
+    //         createTrash: {
+    //             type: TrashType,
+    //             args: {
+    //                 path: { type: new GraphQLNonNull(GraphQLString) },
+    //             },
+    //             resolve: async (_previous, { path }, _context) => {
+    //                 const { data } = await api.postTrash({ path });
+    //                 return data;
+    //             },
+    //         },
+    //         updateTrash: {
+    //             type: TrashType,
+    //             args: {
 
-                },
-                resolve: async (_previous, { }, _context) => {
-                    console.log('masuk update', movieID);
+    //             },
+    //             resolve: async (_previous, { }, _context) => {
+    //                 console.log('masuk update', movieID);
 
-                    const { data } = await api.putEntertainmeMovie(movieID, {});
-                    return data;
-                },
-            },
-            deleteTrash: {
-                type: Trashtype,
-                args: {
-                    trashID: { type: new GraphQLNonNull(GraphQLID) },
-                },
-                resolve: async (_previous, { trashID }, _context) => {
-                    const { data } = await api.deleteTrash(trashID);
-                    return data;
-                },
-            }
-        },
-    }),
+    //                 const { data } = await api.putEntertainmeMovie(movieID, {});
+    //                 return data;
+    //             },
+    //         },
+    //         deleteTrash: {
+    //             type: TrashType,
+    //             args: {
+    //                 trashID: { type: new GraphQLNonNull(GraphQLID) },
+    //             },
+    //             resolve: async (_previous, { trashID }, _context) => {
+    //                 const { data } = await api.deleteTrash(trashID);
+    //                 return data;
+    //             },
+    //         }
+    //     },
+    // }),
 
 })
 module.exports = schema;
