@@ -8,7 +8,8 @@ class Controller {
     req.body.userID = req.userLoggedIn.id;
     if (req.file !== undefined) req.body.path = req.file.cloudStoragePublicUrl;
     req.body.createdAt = new Date();
-
+    console.log(req.body.path);
+    
     let data = {
       "imageURL": req.body.path,
       "name": new Date().toISOString() + '.jpg'
@@ -20,6 +21,8 @@ class Controller {
       data
     })
       .then(({ data }) => {
+        console.log(data);
+        
         req.body.type = getType(data.result);
         req.body.prediction = data.prediction[0];
         return Trash.create(req.body)
