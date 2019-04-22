@@ -9,6 +9,7 @@ const Route = require("route-label")(require("express")()),
 //
 Route.use('', auth.authentication);
 Route.post("Add", "/", bufferImg, uploadGCP.sendUploadToGCS, controller.create);
+Route.get("List_Collection_Trash", "/collection", controller.collection);
 Route.get("List_All_Trash", "/", controller.read);
 Route.delete("Delete", "/:id", controller.delete);
 

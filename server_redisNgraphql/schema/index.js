@@ -17,7 +17,7 @@ const schema = new GraphQLSchema({
     query: new GraphQLObjectType({
         name: "RootQueryType",
         fields: {
-            allData: {
+            garbages: {
                 type: new GraphQLList(TrashType),
                 args: {
                     token: {
@@ -25,10 +25,19 @@ const schema = new GraphQLSchema({
                     }
                 },
                 resolve: async (_previous, { token }, _context) => {
-
-                    console.log(token, "=====");
-
                     const { data } = await api.getTrash(token);
+                    return data
+                }
+            },
+            collections: {
+                type: new GraphQLList(TrashType),
+                args: {
+                    token: {
+                        type: new GraphQLNonNull(GraphQLString)
+                    }
+                },
+                resolve: async (_previous, { token }, _context) => {
+                    const { data } = await api.getCollection(token);
                     return data
                 }
             },

@@ -13,7 +13,7 @@ class Controller {
       "imageURL": req.body.path,
       "name": new Date().toISOString() + '.jpg'
     }
-    
+
     axios({
       url: 'http://35.247.132.37/GarbageAPI',
       method: 'POST',
@@ -43,8 +43,8 @@ class Controller {
   }
   static read(req, res) {
     Trash.find().populate('userID')
-      .then(trashs => {
-        res.status(200).json(trashs);
+      .then(garbages => {
+        res.status(200).json(garbages);
       })
       .catch(err => {
         if (err.message) {
@@ -57,6 +57,24 @@ class Controller {
         }
       });
   }
+
+  static collection(req, res) {
+    Trash.findOne({ userID: req.userLoggedIn.id }).populate('userID')
+      .then(collections => {
+        res.status(200).json(collections);
+      })
+      .catch(err => {
+        if (err.message) {
+          res.status(400)
+            .json({ message: getError(err) });
+        }
+        else {
+          res.status(500)
+            .json({ message: `Internal Server Error` });
+        }
+      });
+  }
+
   static delete(req, res) {
     Trash.deleteOne({ _id: req.params.id })
       .then(info => {
