@@ -1,15 +1,14 @@
 const Trash = require("../models/trash"),
   getError = require("../helpers/getError"),
   axios = require('axios'),
-  getType = require('../helpers/getType');
+  getColor = require('../helpers/getColor');
+getType = require('../helpers/getType');
 
 class Controller {
   static create(req, res) {
     req.body.userID = req.userLoggedIn.id;
     if (req.file !== undefined) req.body.path = req.file.cloudStoragePublicUrl;
-    req.body.createdAt = new Date();
-    console.log(req.body.path);
-    
+
     let data = {
       "imageURL": req.body.path,
       "name": new Date().toISOString() + '.jpg'
@@ -21,10 +20,10 @@ class Controller {
       data
     })
       .then(({ data }) => {
-        console.log(data);
-        
         req.body.type = getType(data.result);
+        req.body.color = getColor(data.result);
         req.body.prediction = data.prediction[0];
+
         return Trash.create(req.body)
       })
       .then(trash => {

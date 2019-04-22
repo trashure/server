@@ -9,9 +9,6 @@ const {
 const api = require('../helpers/api');
 const UserType = require('./types/user');
 const TrashType = require('./types/trash');
-const axios = require('axios')
-
-
 
 const schema = new GraphQLSchema({
     query: new GraphQLObjectType({
@@ -81,32 +78,20 @@ const schema = new GraphQLSchema({
                 type: TrashType,
                 args: {
                     path: { type: new GraphQLNonNull(GraphQLString) },
-                    token: { type: new GraphQLNonNull(GraphQLString) },
+                    title: { type: new GraphQLNonNull(GraphQLString) },
                     description: { type: new GraphQLNonNull(GraphQLString) },
-                    location: { type: new GraphQLNonNull(GraphQLString) },
+                    coordinate: { type: new GraphQLNonNull(GraphQLString) },
+                    createdAt: { type: new GraphQLNonNull(GraphQLString) },
+                    token: { type: new GraphQLNonNull(GraphQLString) },
                 },
-                resolve: async (_previous, { path, token }, _context) => {
+                resolve: async (_previous, { path, title, description, coordinate, createdAt, token }, _context) => {
                     try {
-                        const { data } = await api.postTrash(token, { path });
-                        console.log(data, "=====");
-                        
+                        const { data } = await api.postTrash(token, { path, title, description, coordinate, createdAt });
                         return data
 
                     } catch (error) {
-                        console.log(error, "======");                      
+                        console.log(error, "======");
                     }
-                },
-            },
-            updateTrash: {
-                type: TrashType,
-                args: {
-
-                },
-                resolve: async (_previous, { }, _context) => {
-                    console.log('masuk update', movieID);
-
-                    const { data } = await api.putEntertainmeMovie(movieID, {});
-                    return data;
                 },
             },
             deleteTrash: {
