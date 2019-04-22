@@ -16,7 +16,8 @@ const TrashType = new GraphQLObjectType({
         type: { type: GraphQLString },
         prediction: { type: new GraphQLList(GraphQLString) },
         createdAt: { type: GraphQLString },
-        userID: { type: UserType }
+        userID: { type: UserType },
+        token: { type: GraphQLString }
     }
 })
 module.exports = TrashType;
