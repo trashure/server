@@ -1,16 +1,36 @@
 query {
-  allData(token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjYmMwYzY3OTQ5ZmY4MGVkOWE3MWY4YSIsIm5hbWUiOiJBZGkgUHJhc2V0eWEgUHV0cmEiLCJlbWFpbCI6ImFkaXBAbWFpbC5jb20iLCJpYXQiOjE1NTU4Mjc4NDN9.a-DhYHcovPC44zmRtPh0K3nUK4nRVsM_yxj1uhWIlzY") { 
+  grabages(token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjYmMwYzY3OTQ5ZmY4MGVkOWE3MWY4YSIsIm5hbWUiOiJBZGkgUHJhc2V0eWEgUHV0cmEiLCJlbWFpbCI6ImFkaXBAbWFpbC5jb20iLCJpYXQiOjE1NTU4Mjc4NDN9.a-DhYHcovPC44zmRtPh0K3nUK4nRVsM_yxj1uhWIlzY") { 
      	_id
     	path
     	location
     	description
     	type
-    	userID {
+    	prediction
+    	createdAt
+    	userID{
         _id
-      	email
-    	}   
+        email
+      }
     } 
 }
+
+
+query {
+  collections(token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjYmMwYzY3OTQ5ZmY4MGVkOWE3MWY4YSIsIm5hbWUiOiJBZGkgUHJhc2V0eWEgUHV0cmEiLCJlbWFpbCI6ImFkaXBAbWFpbC5jb20iLCJpYXQiOjE1NTU4Mjc4NDN9.a-DhYHcovPC44zmRtPh0K3nUK4nRVsM_yxj1uhWIlzY") { 
+     	_id
+    	path
+    	location
+    	description
+    	type
+    	prediction
+    	createdAt
+    	userID{
+        _id
+        email
+      }
+    } 
+}
+
 
 //
 //  T R A S H

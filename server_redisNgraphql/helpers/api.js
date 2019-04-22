@@ -1,5 +1,6 @@
 const axios = require('axios'),
     baseURL = 'http://35.237.249.100';
+    // baseURL = 'http://localhost:3000';
 
 const register = (body) => axios.post(baseURL + '/user/register', body);
 const login = (body) => axios.post(baseURL + '/user/login', body);
