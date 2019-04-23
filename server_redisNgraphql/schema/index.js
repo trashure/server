@@ -79,6 +79,7 @@ const schema = new GraphQLSchema({
                     password: { type: new GraphQLNonNull(GraphQLString) },
                 },
                 resolve: async (_previous, { name, email, password }, _context) => {
+                    console.log('masuk register graphQL');
                     const { data } = await api.register({ name, email, password });
                     return data;
                 },
@@ -91,8 +92,7 @@ const schema = new GraphQLSchema({
 
                 },
                 resolve: async (_previous, { email, password }, _context) => {
-                    console.log('masukmlogin ---------');
-
+                    console.log('masuk login graphql')
                     const { data } = await api.login({ email, password })
                     return data
                 }

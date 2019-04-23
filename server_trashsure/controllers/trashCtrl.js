@@ -2,7 +2,8 @@ const Trash = require("../models/trash"),
   getError = require("../helpers/getError"),
   axios = require('axios'),
   getColor = require('../helpers/getColor'),
-  firebase = require('../api/firebase');
+  firebase = require('../api/firebase'),
+  getAddress = require('../helpers/getAddress');
 
 class Controller {
   static iot(req, res) {
@@ -34,8 +35,6 @@ class Controller {
         }
       })
       .catch(err => {
-        // console.log(err);
-
         res.status(500)
           .json({ message: 'internal Server Error' })
       })
@@ -61,18 +60,13 @@ class Controller {
         req.body.type = data.type;
         req.body.color = getColor(data.type);
         req.body.prediction = data.prediction[0];
-        //  return axios({
-        //     url: 'https://geocode.xyz/-6.259957319745124,106.78279722169972?json=1',
-        //     method: 'GET'
-        //   })
+        let coordinate = JSON.parse(req.body.coordinate);
+        return getAddress(coordinate.latitude, coordinate.longitude)
+      })
+      .then(data => {
+        req.body.address = data;
         return Trash.create(req.body)
       })
-
-      // .then(data => {
-      //   console.log(data);
-      //   console.log('masuk');
-      //   return Trash.create(req.body)
-      // })
       .then(trash => {
         return trash.populate('userID').execPopulate();
       })
@@ -108,7 +102,7 @@ class Controller {
   }
 
   static collection(req, res) {
-    Trash.findOne({ userID: req.userLoggedIn.id }).populate('userID')
+    Trash.find({ userID: req.userLoggedIn.id }).populate('userID')
       .then(collections => {
         res.status(200).json(collections);
       })
