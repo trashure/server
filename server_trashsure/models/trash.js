@@ -7,6 +7,7 @@ const TrashSchema = new Schema({
     required: [true, "Image must be taken"]
   },
   coordinate: String,
+  address: String,
   title: String,
   description: String,
   type: String,

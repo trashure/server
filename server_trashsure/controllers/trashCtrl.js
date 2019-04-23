@@ -2,10 +2,12 @@ const Trash = require("../models/trash"),
   getError = require("../helpers/getError"),
   axios = require('axios'),
   getColor = require('../helpers/getColor');
-getType = require('../helpers/getType');
+
 
 class Controller {
   static create(req, res) {
+    console.log('masuk');
+
     req.body.userID = req.userLoggedIn.id;
     if (req.file !== undefined) req.body.path = req.file.cloudStoragePublicUrl;
 
@@ -20,12 +22,21 @@ class Controller {
       data
     })
       .then(({ data }) => {
-        req.body.type = getType(data.result);
+        req.body.type = data.type;
         req.body.color = getColor(data.result);
         req.body.prediction = data.prediction[0];
-
+        // axios({
+        //   url: 'http://geocode.xyz/-6.259957319745124,106.78279722169972?json=1',
+        //   method: 'GET'
+        // })
         return Trash.create(req.body)
       })
+
+      // .then(data => {
+      //   console.log(data);
+      //   console.log('masuk');
+      //   return Trash.create(req.body)
+      // })
       .then(trash => {
         return trash.populate('userID').execPopulate();
       })
