@@ -115,7 +115,7 @@ const schema = new GraphQLSchema({
                         const { data } = await api.postTrash(token, { path, title, description, coordinate, createdAt });
                         return data
                     } catch (error) {
-                        console.log(error, "======");
+                        console.log(path, title, description, coordinate, createdAt, token);
                     }
                 },
             },

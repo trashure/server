@@ -43,6 +43,8 @@ class Controller {
 
 
   static create(req, res) {
+    console.log(req.body);
+    
     req.body.userID = req.userLoggedIn.id;
     if (req.file !== undefined) req.body.path = req.file.cloudStoragePublicUrl;
 
@@ -57,13 +59,17 @@ class Controller {
       data
     })
       .then(({ data }) => {
+        console.log(data);
         req.body.type = data.type;
         req.body.color = getColor(data.type);
         req.body.prediction = data.prediction[0];
-        let coordinate = JSON.parse(req.body.coordinate);
-        return getAddress(coordinate.latitude, coordinate.longitude)
+        let coordinate = req.body.coordinate.split(':');
+        console.log(coordinate);
+        
+        return getAddress(coordinate[0], coordinate[1])
       })
       .then(data => {
+        console.log(data);
         req.body.address = data;
         return Trash.create(req.body)
       })
