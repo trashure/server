@@ -67,6 +67,8 @@ const schema = new GraphQLSchema({
 
                 },
                 resolve: async (_previous, { email, password }, _context) => {
+                    console.log('masukmlogin ---------');
+                    
                     const { data } = await api.login({ email, password })
                     return data
                 }
@@ -88,7 +90,6 @@ const schema = new GraphQLSchema({
                     try {
                         const { data } = await api.postTrash(token, { path, title, description, coordinate, createdAt });
                         return data
-
                     } catch (error) {
                         console.log(error, "======");
                     }
