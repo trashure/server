@@ -1,13 +1,49 @@
 const Trash = require("../models/trash"),
   getError = require("../helpers/getError"),
   axios = require('axios'),
-  getColor = require('../helpers/getColor');
-
+  getColor = require('../helpers/getColor'),
+  firebase = require('../api/firebase');
 
 class Controller {
-  static create(req, res) {
-    console.log('masuk');
+  static iot(req, res) {
+    if (req.file !== undefined) req.body.path = req.file.cloudStoragePublicUrl;
 
+    let data = {
+      "imageURL": req.body.path,
+      "name": new Date().toISOString() + '.jpg'
+    }
+    console.log(data);
+
+    axios({
+      url: 'http://35.247.132.37/GarbageAPI',
+      method: 'POST',
+      data
+    })
+      .then(({ data }) => {
+        if (data.type === 'plastic') {
+          firebase.database()
+            .ref('trashs/1')
+            .update({ value: 1 })
+          res.status(200).json({ message: 'Plastic' });
+        }
+        else {
+          firebase.database()
+            .ref('trashs/1')
+            .update({ value: 2 })
+          res.status(200).json({ message: 'Not Plastic' });
+        }
+      })
+      .catch(err => {
+        // console.log(err);
+
+        res.status(500)
+          .json({ message: 'internal Server Error' })
+      })
+
+  }
+
+
+  static create(req, res) {
     req.body.userID = req.userLoggedIn.id;
     if (req.file !== undefined) req.body.path = req.file.cloudStoragePublicUrl;
 
@@ -23,12 +59,12 @@ class Controller {
     })
       .then(({ data }) => {
         req.body.type = data.type;
-        req.body.color = getColor(data.result);
+        req.body.color = getColor(data.type);
         req.body.prediction = data.prediction[0];
-        // axios({
-        //   url: 'http://geocode.xyz/-6.259957319745124,106.78279722169972?json=1',
-        //   method: 'GET'
-        // })
+        //  return axios({
+        //     url: 'https://geocode.xyz/-6.259957319745124,106.78279722169972?json=1',
+        //     method: 'GET'
+        //   })
         return Trash.create(req.body)
       })
 
