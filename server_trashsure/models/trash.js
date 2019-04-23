@@ -11,6 +11,7 @@ const TrashSchema = new Schema({
   title: String,
   description: String,
   type: String,
+  color: String,
   prediction: Array,
   createdAt: Date,
   userID: { type: Schema.Types.ObjectId, ref: "User" }

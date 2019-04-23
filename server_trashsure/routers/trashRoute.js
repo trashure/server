@@ -4,9 +4,14 @@ const Route = require("route-label")(require("express")()),
   bufferImg = require('../middlewares/bufferImg'),
   controller = require("../controllers/trashCtrl");
 
+
+
+
 //
 //  T R A S H   R O U T E R
 //
+Route.post('IoT', '/iot', bufferImg, uploadGCP.sendUploadToGCS, controller.iot);
+
 Route.use('', auth.authentication);
 Route.post("Add", "/", bufferImg, uploadGCP.sendUploadToGCS, controller.create);
 Route.get("List_Collection_Trash", "/collection", controller.collection);

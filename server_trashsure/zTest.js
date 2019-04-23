@@ -21,5 +21,49 @@
 // console.log(buffer);
 
 
-var createdAt = new Date('2019-04-22T08:22:37.657+00:00').toLocaleString()
-console.log(createdAt)
+// var createdAt = new Date('2019-04-22T08:22:37.657+00:00').toLocaleString()
+// console.log(createdAt)
+
+// const axios = require('axios')
+
+// request({
+const url = 'https://geocode.xyz/-6.259957319745124,106.78279722169972?json=1';
+//     method: 'GET'
+// })
+//     .then(({data}) => {
+//         console.log(data);
+
+//     })
+//     .catch(err => {
+//         console.log(err);
+//         console.log(err.response);
+
+//     })
+
+const app = require('express')();
+console.log('asuk app');
+
+const request = require('request')
+app.get('/',(req, res) => {
+console.log('///');
+
+    res.header("Access-Control-Allow-Headers", "x-requested-with, x-requested-by");
+    request(url, function (err, resp, body) {
+        // String.prototype.beginsWith = function (string) {
+        //     return (this.indexOf(string) === 0);
+        // }
+        console.log(err);
+        console.log(resp);
+        console.log(body);
+        
+
+        if (body.beginsWith('<html>') || body.beginsWith('Missing')) {
+            res.send(resp.statusCode);
+            
+        } else {
+            body = JSON.parse(body);
+            res.send(body);
+        };
+    });
+
+})

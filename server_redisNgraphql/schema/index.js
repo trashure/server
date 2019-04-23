@@ -44,6 +44,30 @@ const schema = new GraphQLSchema({
     mutation: new GraphQLObjectType({
         name: 'RootMutationType',
         fields: {
+            // 
+            //  I o T 
+            // 
+            iot: {
+                type: new GraphQLObjectType({
+                    name: 'IotType',
+                    fields: {
+                        path: { type: GraphQLString }
+                    }
+                }),
+                args: {
+                    path: { type: new GraphQLNonNull(GraphQLString) }
+                },
+                resolve: async (_previous, { path }, _context) => {
+                    console.log('---------');
+                    
+                    try {
+                        const { data } = await api.iot(path);
+                        return data
+                    } catch (error) {
+                        console.log(error, "======");
+                    }
+                },
+            },
             //
             //  U S E R
             // 
@@ -68,7 +92,7 @@ const schema = new GraphQLSchema({
                 },
                 resolve: async (_previous, { email, password }, _context) => {
                     console.log('masukmlogin ---------');
-                    
+
                     const { data } = await api.login({ email, password })
                     return data
                 }
